@@ -10,7 +10,6 @@ model Workspace {
   deletedAt DateTime? @map("deleted_at")
 
   categories Category[]
-  articles   Article[]
 
   @@map("workspaces")
 }
@@ -47,9 +46,6 @@ model Article {
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id")
-
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-  workspaceId String    @map("workplace_id")
 
   @@map("articles")
 }
