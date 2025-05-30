@@ -3,6 +3,7 @@ model Workspace {
 
   title   String
   slug    String  @unique
+  summary String?
   content String?
 
   createdAt DateTime  @default(now()) @map("created_at")
@@ -19,6 +20,7 @@ model Category {
 
   title   String
   slug    String  @unique
+  summary String?
   content String?
 
   createdAt DateTime  @default(now()) @map("created_at")
@@ -38,6 +40,7 @@ model Article {
 
   title   String
   slug    String  @unique
+  summary String?
   content String?
 
   createdAt DateTime  @default(now()) @map("created_at")

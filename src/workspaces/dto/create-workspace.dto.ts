@@ -1,8 +1,12 @@
 import {IsOptional, IsString} from 'class-validator';
 
-export class CreateWorkplaceDto {
+export class CreateWorkspaceDto {
   @IsString()
   title: string;
+
+  @IsString()
+  @IsOptional()
+  summary: string;
 
   @IsString()
   @IsOptional()

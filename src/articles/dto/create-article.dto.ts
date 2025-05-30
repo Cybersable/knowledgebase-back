@@ -6,6 +6,10 @@ export class CreateArticleDto {
 
   @IsString()
   @IsOptional()
+  summary: string;
+
+  @IsString()
+  @IsOptional()
   content: string;
 
   @IsString()
