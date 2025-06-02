@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  Query
+} from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -12,9 +24,16 @@ export class ArticlesController {
     return this.articlesService.create(createArticleDto);
   }
 
+  @UsePipes(new ValidationPipe({ transform: true }))
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  findAll(@Query() queryParams: FindAllArticleDto) {
+    const skip = queryParams.limit * (queryParams.page - 1);
+
+    return this.articlesService.findAll({
+      categoryId: queryParams.categoryId,
+      take: queryParams.limit,
+      skip: skip,
+    });
   }
 
   @Get(':id')

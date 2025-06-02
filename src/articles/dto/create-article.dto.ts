@@ -16,7 +16,7 @@ export class CreateArticleDto {
   slug: string;
 
   @IsString()
-  workplaceId: string;
+  workspaceId: string;
 
   @IsString()
   categoryId: string;

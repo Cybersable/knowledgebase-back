@@ -16,5 +16,5 @@ export class CreateCategoryDto {
   slug: string;
 
   @IsString()
-  workplaceId: string;
+  workspaceId: string;
 }

@@ -1,5 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  Query
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
+import { FindAllCategoryDto } from './dto/find-all-category.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
@@ -8,13 +20,20 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAll(@Query() queryParams: FindAllCategoryDto) {
+    const skip = queryParams.limit * (queryParams.page - 1);
+
+    return this.categoriesService.findAll({
+      take: queryParams.limit,
+      skip: skip,
+    });
   }
 
   @Get(':id')

@@ -42,7 +42,7 @@ export function fakeCategoryComplete() {
     createdAt: new Date(),
     updatedAt: faker.date.anytime(),
     deletedAt: undefined,
-    workplaceId: faker.string.uuid(),
+    workspaceId: faker.string.uuid(),
   };
 }
 export function fakeArticle() {

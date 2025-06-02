@@ -22,7 +22,7 @@ CREATE TABLE "categories" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
-    "workplace_id" TEXT NOT NULL,
+    "workspace_id" TEXT NOT NULL,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
 );
@@ -52,7 +52,7 @@ CREATE UNIQUE INDEX "categories_slug_key" ON "categories"("slug");
 CREATE UNIQUE INDEX "articles_slug_key" ON "articles"("slug");
 
 -- AddForeignKey
-ALTER TABLE "categories" ADD CONSTRAINT "categories_workplace_id_fkey" FOREIGN KEY ("workplace_id") REFERENCES "workspaces"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "categories" ADD CONSTRAINT "categories_workspace_id_fkey" FOREIGN KEY ("workspace_id") REFERENCES "workspaces"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "articles" ADD CONSTRAINT "articles_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
