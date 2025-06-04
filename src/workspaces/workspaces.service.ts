@@ -32,15 +32,18 @@ export class WorkspacesService {
     skip: number
     take: number
   }): Promise<{
-    data: Workspace[]
+    data: Array<Omit<Workspace, 'content'>>
     total: number
   }> {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.workspace.findMany({
         skip,
         take,
+        omit: {
+          content: false,
+        }
       }),
-      this.prisma.workspace.count()
+      this.prisma.workspace.count(),
     ]);
 
     return { data, total };
@@ -56,17 +59,6 @@ export class WorkspacesService {
     return this.prisma.workspace.findUnique({
       where: { slug },
     });
-  }
-
-  findAllDocs() {
-    return this.prisma.workspace.findMany({
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        summary: true,
-      }
-    })
   }
 
   findOneDocs(slug: string) {

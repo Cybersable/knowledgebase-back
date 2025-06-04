@@ -36,12 +36,6 @@ export class WorkspacesController {
       skip: skip,
     });
   }
-
-  @Get('docs')
-  findAllDocs() {
-    return this.workspacesService.findAllDocs();
-  }
-
   @Get('docs/:slug')
   findOneDocs(@Param('slug') slug: string) {
     return this.workspacesService.findOneDocs(slug);
