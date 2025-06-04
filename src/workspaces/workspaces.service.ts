@@ -58,8 +58,19 @@ export class WorkspacesService {
     });
   }
 
-  docs(slug: string) {
-    const summaryFiles = {
+  findAllDocs() {
+    return this.prisma.workspace.findMany({
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+      }
+    })
+  }
+
+  findOneDocs(slug: string) {
+    const fields = {
       id: true,
       slug: true,
       title: true,
@@ -69,12 +80,12 @@ export class WorkspacesService {
     return this.prisma.workspace.findUnique({
         where: { slug },
         select: {
-          ...summaryFiles,
+          ...fields,
           categories: {
             select: {
-              ...summaryFiles,
+              ...fields,
               articles: {
-                select: summaryFiles,
+                select: fields,
               }
             }
           }
