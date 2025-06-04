@@ -33,6 +33,7 @@ export class CategoriesController {
     return this.categoriesService.findAll({
       take: queryParams.limit,
       skip: skip,
+      workspaceId: queryParams.workspaceId,
     });
   }
 

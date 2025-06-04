@@ -2,7 +2,8 @@ import { Transform } from 'class-transformer';
 import {
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
+  Max
 } from 'class-validator';
 
 export class FindAllCategoryDto {
@@ -14,8 +15,10 @@ export class FindAllCategoryDto {
   @Transform(({ value }) => Math.max(Number(value), 1))
   @IsNumber()
   @IsOptional()
+  @Max(100)
   limit = 10
 
   @IsString()
+  @IsOptional()
   workspaceId
 }
