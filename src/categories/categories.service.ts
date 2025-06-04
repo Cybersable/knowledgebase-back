@@ -20,7 +20,7 @@ export class CategoriesService {
   }: {
     skip: number
     take: number
-    workspaceId?: string
+    workspaceId: string
   }): Promise<{
     data: Category[]
     total: number

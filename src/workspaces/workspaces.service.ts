@@ -47,6 +47,30 @@ export class WorkspacesService {
     });
   }
 
+  docs(slug: string) {
+    const summaryFiles = {
+      id: true,
+      slug: true,
+      title: true,
+      summary: true,
+    };
+
+    return this.prisma.workspace.findUnique({
+        where: { slug },
+        select: {
+          ...summaryFiles,
+          categories: {
+            select: {
+              ...summaryFiles,
+              articles: {
+                select: summaryFiles,
+              }
+            }
+          }
+        }
+      });
+  }
+
   update(id: string, updateWorkspaceDto: UpdateWorkspaceDto) {
     return this.prisma.workspace.update({
       where: { id },

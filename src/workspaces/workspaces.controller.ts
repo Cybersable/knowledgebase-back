@@ -37,6 +37,11 @@ export class WorkspacesController {
     });
   }
 
+  @Get('docs/:slug')
+  docs(@Param('slug') slug: string) {
+    return this.workspacesService.docs(slug);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.workspacesService.findOne(id);
