@@ -14,6 +14,17 @@ export class WorkspacesService {
     });
   }
 
+  findAllSummary() {
+    return this.prisma.workspace.findMany({
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+      }
+    })
+  }
+
   async findAll({
     skip,
     take,

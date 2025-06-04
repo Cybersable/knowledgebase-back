@@ -37,6 +37,11 @@ export class WorkspacesController {
     });
   }
 
+  @Get()
+  findAllSummary() {
+    return this.workspacesService.findAllSummary();
+  }
+
   @Get('docs/:slug')
   docs(@Param('slug') slug: string) {
     return this.workspacesService.docs(slug);
