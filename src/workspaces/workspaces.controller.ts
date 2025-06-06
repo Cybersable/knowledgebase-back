@@ -36,19 +36,9 @@ export class WorkspacesController {
       skip: skip,
     });
   }
-  @Get('docs/:slug')
-  findOneDocs(@Param('slug') slug: string) {
-    return this.workspacesService.findOneDocs(slug);
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.workspacesService.findOne(id);
-  }
-
-  @Get('slug/:slug')
-  findOneBySlug(@Param('slug') slug: string) {
-    return this.workspacesService.findOneBySlug(slug);
   }
 
   @Patch(':id')

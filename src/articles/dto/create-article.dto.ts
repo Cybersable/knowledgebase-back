@@ -13,11 +13,5 @@ export class CreateArticleDto {
   content: string;
 
   @IsString()
-  slug: string;
-
-  @IsString()
-  workspaceId: string;
-
-  @IsString()
   categoryId: string;
 }

@@ -7,11 +7,4 @@ export class CreateWorkspaceDto {
   @IsString()
   @IsOptional()
   summary: string;
-
-  @IsString()
-  @IsOptional()
-  content: string;
-
-  @IsString()
-  slug: string;
 }

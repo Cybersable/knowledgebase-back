@@ -5,7 +5,6 @@ export function fakeWorkspace() {
     title: faker.lorem.words(5),
     slug: faker.lorem.words(5),
     summary: undefined,
-    content: undefined,
     updatedAt: faker.date.anytime(),
     deletedAt: undefined,
   };
@@ -16,7 +15,6 @@ export function fakeWorkspaceComplete() {
     title: faker.lorem.words(5),
     slug: faker.lorem.words(5),
     summary: undefined,
-    content: undefined,
     createdAt: new Date(),
     updatedAt: faker.date.anytime(),
     deletedAt: undefined,
@@ -27,7 +25,6 @@ export function fakeCategory() {
     title: faker.lorem.words(5),
     slug: faker.lorem.words(5),
     summary: undefined,
-    content: undefined,
     updatedAt: faker.date.anytime(),
     deletedAt: undefined,
   };
@@ -38,7 +35,6 @@ export function fakeCategoryComplete() {
     title: faker.lorem.words(5),
     slug: faker.lorem.words(5),
     summary: undefined,
-    content: undefined,
     createdAt: new Date(),
     updatedAt: faker.date.anytime(),
     deletedAt: undefined,

@@ -9,20 +9,14 @@ export class WorkspacesService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createWorkspaceDto: CreateWorkspaceDto) {
-    return this.prisma.workspace.create({
-      data: createWorkspaceDto,
-    });
-  }
+    const slug = createWorkspaceDto.title.replace(' ', '-');
 
-  findAllSummary() {
-    return this.prisma.workspace.findMany({
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        summary: true,
-      }
-    })
+    return this.prisma.workspace.create({
+      data: {
+        ...createWorkspaceDto,
+        slug,
+      },
+    });
   }
 
   async findAll({
@@ -32,16 +26,13 @@ export class WorkspacesService {
     skip: number
     take: number
   }): Promise<{
-    data: Array<Omit<Workspace, 'content'>>
+    data: Array<Workspace>
     total: number
   }> {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.workspace.findMany({
         skip,
         take,
-        omit: {
-          content: false,
-        }
       }),
       this.prisma.workspace.count(),
     ]);
@@ -53,36 +44,6 @@ export class WorkspacesService {
     return this.prisma.workspace.findUnique({
       where: { id },
     });
-  }
-
-  findOneBySlug(slug: string) {
-    return this.prisma.workspace.findUnique({
-      where: { slug },
-    });
-  }
-
-  findOneDocs(slug: string) {
-    const fields = {
-      id: true,
-      slug: true,
-      title: true,
-      summary: true,
-    };
-
-    return this.prisma.workspace.findUnique({
-        where: { slug },
-        select: {
-          ...fields,
-          categories: {
-            select: {
-              ...fields,
-              articles: {
-                select: fields,
-              }
-            }
-          }
-        }
-      });
   }
 
   update(id: string, updateWorkspaceDto: UpdateWorkspaceDto) {

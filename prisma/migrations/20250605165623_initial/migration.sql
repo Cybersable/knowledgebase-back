@@ -4,7 +4,6 @@ CREATE TABLE "workspaces" (
     "title" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "summary" TEXT,
-    "content" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
@@ -18,7 +17,6 @@ CREATE TABLE "categories" (
     "title" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "summary" TEXT,
-    "content" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
@@ -44,12 +42,6 @@ CREATE TABLE "articles" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "workspaces_slug_key" ON "workspaces"("slug");
-
--- CreateIndex
-CREATE UNIQUE INDEX "categories_slug_key" ON "categories"("slug");
-
--- CreateIndex
-CREATE UNIQUE INDEX "articles_slug_key" ON "articles"("slug");
 
 -- AddForeignKey
 ALTER TABLE "categories" ADD CONSTRAINT "categories_workspace_id_fkey" FOREIGN KEY ("workspace_id") REFERENCES "workspaces"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

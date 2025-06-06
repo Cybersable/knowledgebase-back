@@ -8,8 +8,13 @@ import { Category } from '@prisma/client';
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
   create(createCategoryDto: CreateCategoryDto) {
+    const slug = createCategoryDto.workspaceId + '-' + createCategoryDto.title.replaceAll(' ', '-').toLowerCase();
+    
     return this.prisma.category.create({
-      data: createCategoryDto,
+      data: {
+        slug,
+        ...createCategoryDto
+      },
     });
   }
 
@@ -45,12 +50,6 @@ export class CategoriesService {
   findOne(id: string) {
     return this.prisma.category.findUnique({
       where: { id },
-    });
-  }
-
-  findOneBySlug(slug: string) {
-    return this.prisma.category.findUnique({
-      where: { slug },
     });
   }
 

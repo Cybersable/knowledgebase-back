@@ -2,14 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma.service';
-import {Workspace} from "@prisma/client";
+import { Article } from '@prisma/client';
 
 @Injectable()
 export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
   create(createArticleDto: CreateArticleDto) {
+    const slug = createArticleDto.categoryId + '-' + createArticleDto.title.replaceAll(' ', '-').toLowerCase();
+
     return this.prisma.article.create({
-      data: createArticleDto,
+      data: {
+        slug,
+        ...createArticleDto,
+      },
     });
   }
 
@@ -22,7 +27,7 @@ export class ArticlesService {
     skip: number
     take: number
   }): Promise<{
-    data: Workspace[]
+    data: Array<Omit<Article, 'content'>>
     total: number
   }> {
     const query = { where: {
@@ -35,6 +40,9 @@ export class ArticlesService {
         skip,
         take,
         where: query.where,
+        omit: {
+          content: true,
+        }
       }),
       this.prisma.article.count(query)
     ]);
@@ -45,12 +53,6 @@ export class ArticlesService {
   findOne(id: string) {
     return this.prisma.article.findUnique({
       where: { id },
-    });
-  }
-
-  findOneBySlug(slug: string) {
-    return this.prisma.category.findUnique({
-      where: { slug },
     });
   }
 
