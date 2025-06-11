@@ -53,6 +53,25 @@ export class ArticlesService {
   findOne(id: string) {
     return this.prisma.article.findUnique({
       where: { id },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        summary: true,
+        content: true,
+        categoryId: true,
+        updatedAt: true,
+        category: {
+          select: {
+            workspaceId: true
+          }
+        }
+      },
+    }).then(({ category, ...args}) => {
+      return {
+        ...args,
+        workspaceId: category.workspaceId,
+      }
     });
   }
 
