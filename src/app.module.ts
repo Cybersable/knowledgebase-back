@@ -6,11 +6,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { ArticlesModule } from './articles/articles.module';
 
 @Module({
-  imports: [
-    WorkspacesModule,
-    CategoriesModule,
-    ArticlesModule
-  ],
+  imports: [WorkspacesModule, CategoriesModule, ArticlesModule],
   controllers: [AppController],
   providers: [AppService],
 })

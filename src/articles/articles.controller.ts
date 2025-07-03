@@ -8,7 +8,7 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
-  Query
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -31,6 +31,7 @@ export class ArticlesController {
 
     return this.articlesService.findAll({
       categoryId: queryParams.categoryId,
+      workspaceId: queryParams.workspaceId,
       take: queryParams.limit,
       skip: skip,
     });

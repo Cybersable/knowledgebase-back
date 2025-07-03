@@ -19,15 +19,9 @@ export class WorkspacesService {
     });
   }
 
-  async findAll({
-    skip,
-    take,
-  }: {
-    skip: number
-    take: number
-  }): Promise<{
-    data: Array<Workspace>
-    total: number
+  async findAll({ skip, take }: { skip: number; take: number }): Promise<{
+    data: Array<Workspace>;
+    total: number;
   }> {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.workspace.findMany({
@@ -37,7 +31,7 @@ export class WorkspacesService {
       this.prisma.workspace.count(),
     ]);
 
-    return { data, total };
+    return { data, total: Math.ceil(total / take) };
   }
 
   findOne(id: string) {
@@ -53,7 +47,7 @@ export class WorkspacesService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return this.prisma.workspace.delete({
       where: { id },
     });

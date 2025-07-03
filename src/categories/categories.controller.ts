@@ -8,7 +8,7 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
-  Query
+  Query,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { FindAllCategoryDto } from './dto/find-all-category.dto';
@@ -38,12 +38,23 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const category = await this.categoriesService.findOne(id);
+
+    return {
+      id: category.id,
+      title: category.title,
+      summary: category.summary,
+      workspaceId: category.workspace.id,
+      workspaceTitle: category.workspace.title,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
     return this.categoriesService.update(id, updateCategoryDto);
   }
 

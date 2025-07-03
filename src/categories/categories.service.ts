@@ -8,12 +8,15 @@ import { Category } from '@prisma/client';
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
   create(createCategoryDto: CreateCategoryDto) {
-    const slug = createCategoryDto.workspaceId + '-' + createCategoryDto.title.replaceAll(' ', '-').toLowerCase();
-    
+    const slug =
+      createCategoryDto.workspaceId +
+      '-' +
+      createCategoryDto.title.replaceAll(' ', '-').toLowerCase();
+
     return this.prisma.category.create({
       data: {
         slug,
-        ...createCategoryDto
+        ...createCategoryDto,
       },
     });
   }
@@ -23,33 +26,49 @@ export class CategoriesService {
     take,
     workspaceId,
   }: {
-    skip: number
-    take: number
-    workspaceId: string
+    skip: number;
+    take: number;
+    workspaceId?: string;
   }): Promise<{
-    data: Category[]
-    total: number
+    data: Category[];
+    total: number;
   }> {
     const query = {
       where: {
-        workspaceId,
-      }
-    }
+        ...(workspaceId
+          ? {
+              workspaceId,
+            }
+          : {}),
+      },
+    };
+
     const [data, total] = await this.prisma.$transaction([
       this.prisma.category.findMany({
         skip,
         take,
         where: query.where,
       }),
-      this.prisma.category.count(query)
-    ])
+      this.prisma.category.count(query),
+    ]);
 
-    return { data, total };
+    return { data, total: Math.ceil(total / take) };
   }
 
   findOne(id: string) {
     return this.prisma.category.findUnique({
       where: { id },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        workspace: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
     });
   }
 

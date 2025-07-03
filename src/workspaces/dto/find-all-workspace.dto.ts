@@ -1,9 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsNumber,
-  IsOptional,
-  Max
-} from 'class-validator';
+import { IsNumber, IsOptional, Max } from 'class-validator';
 
 export class FindAllWorkspaceDto {
   @Transform(({ value }) => Math.max(Number(value), 1))
