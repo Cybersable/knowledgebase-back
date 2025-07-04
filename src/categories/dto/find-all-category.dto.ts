@@ -15,5 +15,5 @@ export class FindAllCategoryDto {
 
   @IsString()
   @IsOptional()
-  workspaceId;
+  workspaceId: string;
 }

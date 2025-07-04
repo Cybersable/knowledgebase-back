@@ -1,6 +1,5 @@
 import { Prisma } from '@prisma/client';
 
-//extension for soft delete
 export const softDelete = Prisma.defineExtension({
   name: 'softDelete',
   model: {
@@ -23,7 +22,6 @@ export const softDelete = Prisma.defineExtension({
   },
 });
 
-//extension for soft delete Many
 export const softDeleteMany = Prisma.defineExtension({
   name: 'softDeleteMany',
   model: {
@@ -46,12 +44,11 @@ export const softDeleteMany = Prisma.defineExtension({
   },
 });
 
-//extension for filtering soft deleted rows from queries
 export const filterSoftDeleted = Prisma.defineExtension({
   name: 'filterSoftDeleted',
   query: {
     $allModels: {
-      async $allOperations({ model, operation, args, query }) {
+      async $allOperations({ operation, args, query }) {
         if (
           operation === 'findUnique' ||
           operation === 'findFirst' ||

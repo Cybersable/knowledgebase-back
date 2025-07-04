@@ -15,9 +15,9 @@ export class FindAllArticleDto {
 
   @IsString()
   @IsOptional()
-  categoryId;
+  categoryId: string;
 
   @IsString()
   @IsOptional()
-  workspaceId;
+  workspaceId: string;
 }
