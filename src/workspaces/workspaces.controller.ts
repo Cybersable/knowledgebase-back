@@ -10,6 +10,7 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
@@ -37,8 +38,14 @@ export class WorkspacesController {
     });
   }
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workspacesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const workspace = await this.workspacesService.findOne(id);
+
+    if (!workspace) {
+      throw new NotFoundException(`Workspace with id ${id} does not exist.`);
+    }
+
+    return workspace;
   }
 
   @Patch(':id')

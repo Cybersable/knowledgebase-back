@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { FindAllCategoryDto } from './dto/find-all-category.dto';
@@ -40,6 +41,12 @@ export class CategoriesController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const category = await this.categoriesService.findOne(id);
+
+    if (!category) {
+      throw new NotFoundException(
+        `Category with id ${id} does not found exist.`,
+      );
+    }
 
     return {
       id: category.id,
