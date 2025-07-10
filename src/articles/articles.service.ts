@@ -64,29 +64,37 @@ export class ArticlesService {
   }
 
   findOne(id: string) {
-    return this.prisma.article.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        summary: true,
-        content: true,
-        updatedAt: true,
-        category: {
-          select: {
-            id: true,
-            title: true,
-            workspace: {
-              select: {
-                id: true,
-                title: true,
+    return this.prisma.article
+      .findUnique({
+        where: { id },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          summary: true,
+          content: true,
+          updatedAt: true,
+          category: {
+            select: {
+              id: true,
+              title: true,
+              workspace: {
+                select: {
+                  id: true,
+                  title: true,
+                },
               },
             },
           },
         },
-      },
-    });
+      })
+      .then(({ category, ...args }) => ({
+        ...args,
+        categoryId: category.id,
+        categoryTitle: category.title,
+        workspaceId: category.workspace.id,
+        workspaceTitle: category.workspace.title,
+      }));
   }
 
   update(id: string, updateArticleDto: UpdateArticleDto) {

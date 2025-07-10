@@ -21,8 +21,9 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  async create(@Body() createArticleDto: CreateArticleDto) {
+    const article = await this.articlesService.create(createArticleDto);
+    return this.articlesService.findOne(article.id);
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -46,20 +47,16 @@ export class ArticlesController {
       throw new NotFoundException(`Article with id ${id} not exist.`);
     }
 
-    const { category, ...args } = article;
-
-    return {
-      ...args,
-      categoryId: category.id,
-      categoryTitle: category.title,
-      workspaceId: category.workspace.id,
-      workspaceTitle: category.workspace.title,
-    };
+    return article;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(id, updateArticleDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    await this.articlesService.update(id, updateArticleDto);
+    return this.articlesService.findOne(id);
   }
 
   @Delete(':id')
