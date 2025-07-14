@@ -11,6 +11,8 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "db:migrate": "npx prisma migrate deploy",
+    "db:deploy": "npx prisma generate",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -84,8 +86,5 @@
       "@nestjs/core",
       "@swc/core"
     ]
-  },
-  "prisma": {
-    "schema": "./prisma"
   }
 }

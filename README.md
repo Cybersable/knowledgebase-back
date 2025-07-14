@@ -25,6 +25,17 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Docker
+
+```bash
+  docker build -t knowledgebase-back .
+```
+
+```bash
+  docker run -p 4200:4200 knowledgebase-back
+```
+
+
 ## Project setup
 
 ```bash

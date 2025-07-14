@@ -1,14 +1,61 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
-}
-
-generator custom_generator {
-  provider = "prisma-generator-fake-data"
-  output   = "../types/fake-data.ts"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Workspace {
+  id String @id @default(cuid())
+
+  title   String
+  slug    String  @unique
+  summary String?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  categories Category[]
+
+  @@map("workspaces")
+}
+
+model Category {
+  id String @id @default(cuid())
+
+  title   String
+  slug    String
+  summary String?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String    @map("workspace_id")
+
+  articles Article[]
+
+  @@map("categories")
+}
+
+model Article {
+  id String @id @default(cuid())
+
+  title   String
+  slug    String
+  summary String?
+  content String?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String   @map("category_id")
+
+  @@map("articles")
 }

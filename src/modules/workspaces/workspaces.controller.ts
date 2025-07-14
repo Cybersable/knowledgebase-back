@@ -15,7 +15,7 @@ import {
 import { WorkspacesService } from './workspaces.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
-import { FindAllWorkspaceDto } from 'src/workspaces/dto/find-all-workspace.dto';
+import { FindAllWorkspaceDto } from 'src/modules/workspaces/dto/find-all-workspace.dto';
 
 @Controller('workspaces')
 export class WorkspacesController {
