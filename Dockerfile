@@ -33,8 +33,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nestjs
 
 COPY --chown=node:nestjs --from=builder /usr/src/app/node_modules ./node_modules
-COPY --chown=node:nestjs --from=builder /usr/src/app/dist ./dist
-COPY --chown=node:nestjs --from=builder /usr/src/app ./usr/src/app
+COPY --chown=node:nestjs --from=builder /usr/src/app/dist/src ./dist/src
+
+COPY --chown=node:nestjs --from=builder /usr/src/app/dist/prisma ./prisma
+COPY --chown=node:nestjs --from=builder /usr/src/app/prisma/migrations ./prisma/migrations
+COPY --chown=node:nestjs --from=builder /usr/src/app/prisma/schema.prisma ./prisma/schema.prisma
 
 USER nestjs
 
