@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
-RUN yarn db:deploy
+RUN yarn prisma:generate
 
 RUN yarn build
 
