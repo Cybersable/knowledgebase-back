@@ -34,6 +34,7 @@ RUN adduser --system --uid 1001 nestjs
 
 COPY --chown=node:nestjs --from=builder /usr/src/app/node_modules ./node_modules
 COPY --chown=node:nestjs --from=builder /usr/src/app/dist ./dist
+COPY --chown=node:nestjs --from=builder /usr/src/app ./usr/src/app
 
 USER nestjs
 
