@@ -15,6 +15,10 @@ export class FindAllArticleDto {
 
   @IsString()
   @IsOptional()
+  search: string;
+
+  @IsString()
+  @IsOptional()
   categoryId: string;
 
   @IsString()

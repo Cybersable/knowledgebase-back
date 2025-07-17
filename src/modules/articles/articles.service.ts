@@ -24,15 +24,24 @@ export class ArticlesService {
   async findAll({
     workspaceId,
     categoryId,
+    search,
     skip,
     take,
   }: {
     workspaceId?: string;
     categoryId?: string;
+    search?: string;
     skip: number;
     take: number;
   }): Promise<{
-    data: Array<Omit<Article, 'content'>>;
+    data: Array<
+      Omit<Article, 'content' | 'updatedAt' | 'createdAt' | 'deletedAt'> & {
+        categoryId: string;
+        categoryTitle: string;
+        workspaceId: string;
+        workspaceTitle: string;
+      }
+    >;
     total: number;
   }> {
     const query = {
@@ -45,6 +54,19 @@ export class ArticlesService {
               },
             }
           : {}),
+        ...(search
+          ? {
+              title: {
+                search,
+              },
+              summary: {
+                search,
+              },
+              content: {
+                search,
+              },
+            }
+          : {}),
       },
     };
 
@@ -53,14 +75,38 @@ export class ArticlesService {
         skip,
         take,
         where: query.where,
-        omit: {
-          content: true,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          summary: true,
+          categoryId: true,
+          category: {
+            select: {
+              id: true,
+              title: true,
+              workspace: {
+                select: {
+                  id: true,
+                  title: true,
+                },
+              },
+            },
+          },
         },
       }),
       this.prisma.article.count(query),
     ]);
 
-    return { data, total: Math.ceil(total / take) };
+    const articles = data.map(({ category, ...article }) => ({
+      ...article,
+      categoryId: category.id,
+      categoryTitle: category.title,
+      workspaceId: category.workspace.id,
+      workspaceTitle: category.workspace.title,
+    }));
+
+    return { data: articles, total: Math.ceil(total / take) };
   }
 
   findOne(id: string) {

@@ -34,6 +34,7 @@ export class ArticlesController {
     return this.articlesService.findAll({
       categoryId: queryParams.categoryId,
       workspaceId: queryParams.workspaceId,
+      search: queryParams.search,
       take: queryParams.limit,
       skip: skip,
     });
