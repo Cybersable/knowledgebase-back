@@ -69,7 +69,7 @@ export const seedArticles = async (prisma: PrismaClient, count: number) => {
   return Promise.all(
     categoriesIds.map(({ id }) => {
       const articles = faker.helpers
-        .uniqueArray(() => faker.lorem.sentence({ min: 5, max: 10 }), count)
+        .uniqueArray(() => faker.lorem.sentence({ min: 3, max: 7 }), count)
         .map((title) => ({
           title,
           slug: title.toLowerCase().replace(' ', '-'),
