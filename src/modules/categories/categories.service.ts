@@ -30,7 +30,11 @@ export class CategoriesService {
     take: number;
     workspaceId?: string;
   }): Promise<{
-    data: Category[];
+    data: Array<
+      Category & {
+        childrenCount: number;
+      }
+    >;
     total: number;
   }> {
     const query = {
@@ -48,11 +52,31 @@ export class CategoriesService {
         skip,
         take,
         where: query.where,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          summary: true,
+          workspaceId: true,
+          createdAt: true,
+          updatedAt: true,
+          deletedAt: true,
+          _count: {
+            select: {
+              articles: true,
+            },
+          },
+        },
       }),
       this.prisma.category.count(query),
     ]);
 
-    return { data, total: Math.ceil(total / take) };
+    const categories = data.map(({ _count, ...category }) => ({
+      ...category,
+      childrenCount: _count.articles,
+    }));
+
+    return { data: categories, total: Math.ceil(total / take) };
   }
 
   findOne(id: string) {
